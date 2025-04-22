@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --royal-marine: 0 33 71;    /* #002147 */
+    --copper: 184 115 51;       /* #B87333 */
+    --copper-green: 76 115 85;  /* #4C7355 */
+    --sparkly-gold: 255 215 0;  /* #FFD700 */
+  }
+
+  body {
+    @apply bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100;
+    @apply min-h-screen;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-royal-marine text-white px-4 py-2 rounded-lg hover:bg-opacity-90 transition-colors;
+  }
+
+  .btn-secondary {
+    @apply bg-copper text-white px-4 py-2 rounded-lg hover:bg-opacity-90 transition-colors;
+  }
+
+  .card {
+    @apply bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6;
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  .print-break-before {
+    page-break-before: always;
+  }
+  
+  .print-break-after {
+    page-break-after: always;
+  }
+}
