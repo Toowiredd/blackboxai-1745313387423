@@ -6,6 +6,7 @@ import { DurationSelector } from './DurationSelector';
 import { GroupSizeInput } from './GroupSizeInput';
 import { ReviewAndGenerate } from './ReviewAndGenerate';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useState } from 'react';
 
 interface StepIndicatorProps {
   currentStep: number;
@@ -50,6 +51,7 @@ const slideAnimation = {
 export function Wizard() {
   const currentStep = useWizardStore(state => state.currentStep);
   const totalSteps = 6; // Including review step
+  const [generatedGuide, setGeneratedGuide] = useState(null);
 
   const renderStep = () => {
     switch (currentStep) {

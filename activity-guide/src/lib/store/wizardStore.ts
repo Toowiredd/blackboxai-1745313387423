@@ -11,6 +11,7 @@ interface WizardStore extends WizardState {
   nextStep: () => void;
   previousStep: () => void;
   resetWizard: () => void;
+  generateGuide: () => void;
 }
 
 const initialState: WizardState = {
@@ -20,12 +21,13 @@ const initialState: WizardState = {
   duration: null,
   groupSize: null,
   currentStep: 0,
+  generatedGuide: null,
 };
 
 export const useWizardStore = create<WizardStore>()(
   devtools(
     persist(
-      (set) => ({
+      (set, get) => ({
         ...initialState,
 
         setActivityType: (type) => 
@@ -51,6 +53,18 @@ export const useWizardStore = create<WizardStore>()(
 
         resetWizard: () => 
           set(initialState),
+
+        generateGuide: () => {
+          const { activityType, skillLevel, location, duration, groupSize } = get();
+          const guide = {
+            activityType,
+            skillLevel,
+            location,
+            duration,
+            groupSize,
+          };
+          set({ generatedGuide: guide });
+        },
       }),
       {
         name: 'activity-guide-wizard',

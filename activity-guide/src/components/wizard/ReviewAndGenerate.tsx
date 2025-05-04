@@ -1,5 +1,6 @@
 import { useWizardStore } from '../../lib/store/wizardStore';
 import { ClipboardCheck, Edit2, FileText } from 'lucide-react';
+import { useState } from 'react';
 
 interface ReviewItemProps {
   label: string;
@@ -40,15 +41,17 @@ export function ReviewAndGenerate() {
     currentStep,
   } = useWizardStore();
 
+  const [generatedGuide, setGeneratedGuide] = useState(null);
+
   const handleGenerate = () => {
-    // This will be implemented when we add the guide generation logic
-    console.log('Generating guide with:', {
+    const guide = {
       activityType,
       skillLevel,
       location,
       duration,
       groupSize,
-    });
+    };
+    setGeneratedGuide(guide);
   };
 
   const goToStep = (step: number) => {
@@ -69,38 +72,47 @@ export function ReviewAndGenerate() {
         <h2 className="text-2xl font-semibold">Review Your Selections</h2>
       </div>
 
-      <div className="space-y-4">
-        <ReviewItem
-          label="Activity Type"
-          value={activityType}
-          icon={<FileText className="w-5 h-5" />}
-          onEdit={() => goToStep(0)}
-        />
-        <ReviewItem
-          label="Skill Level"
-          value={skillLevel}
-          icon={<FileText className="w-5 h-5" />}
-          onEdit={() => goToStep(1)}
-        />
-        <ReviewItem
-          label="Location"
-          value={location}
-          icon={<FileText className="w-5 h-5" />}
-          onEdit={() => goToStep(2)}
-        />
-        <ReviewItem
-          label="Duration"
-          value={duration}
-          icon={<FileText className="w-5 h-5" />}
-          onEdit={() => goToStep(3)}
-        />
-        <ReviewItem
-          label="Group Size"
-          value={groupSize ? `${groupSize} ${groupSize === 1 ? 'person' : 'people'}` : null}
-          icon={<FileText className="w-5 h-5" />}
-          onEdit={() => goToStep(4)}
-        />
-      </div>
+      {generatedGuide ? (
+        <div className="space-y-4">
+          <h3 className="text-xl font-semibold">Generated Guide</h3>
+          <pre className="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
+            {JSON.stringify(generatedGuide, null, 2)}
+          </pre>
+        </div>
+      ) : (
+        <div className="space-y-4">
+          <ReviewItem
+            label="Activity Type"
+            value={activityType}
+            icon={<FileText className="w-5 h-5" />}
+            onEdit={() => goToStep(0)}
+          />
+          <ReviewItem
+            label="Skill Level"
+            value={skillLevel}
+            icon={<FileText className="w-5 h-5" />}
+            onEdit={() => goToStep(1)}
+          />
+          <ReviewItem
+            label="Location"
+            value={location}
+            icon={<FileText className="w-5 h-5" />}
+            onEdit={() => goToStep(2)}
+          />
+          <ReviewItem
+            label="Duration"
+            value={duration}
+            icon={<FileText className="w-5 h-5" />}
+            onEdit={() => goToStep(3)}
+          />
+          <ReviewItem
+            label="Group Size"
+            value={groupSize ? `${groupSize} ${groupSize === 1 ? 'person' : 'people'}` : null}
+            icon={<FileText className="w-5 h-5" />}
+            onEdit={() => goToStep(4)}
+          />
+        </div>
+      )}
 
       <div className="mt-8 space-y-4">
         {!allFieldsComplete && (
